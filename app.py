@@ -65,7 +65,7 @@ def doctor():
         if not p["done"]:
             grouped.setdefault(p["doctor"], []).append(p)
 
-    return render_template("doctor.html", grouped=grouped)
+    return render_template("doctor.html", grouped=grouped or {})
 
 @app.route("/complete/<int:pid>")
 def complete(pid):
