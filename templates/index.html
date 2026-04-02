@@ -1,21 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>AI Appointment Prioritizer</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-<body style="text-align:center; margin-top:100px; font-family:sans-serif;">
+<body>
 
-    <h1>🏥 AI Appointment Prioritizer</h1>
-    <p>Select your view</p>
-
-    <a href="/patient">
-        <button style="padding:10px 20px; margin:10px;">Patient View</button>
-    </a>
-
-    <a href="/doctor">
-        <button style="padding:10px 20px; margin:10px;">Doctor View</button>
-    </a>
+<div class="container">
+    <h1>🏥 AI Queue System</h1>
+    <a href="/patient"><button>Patient</button></a>
+    <a href="/doctor"><button>Doctor</button></a>
+</div>
 
 </body>
 </html>
