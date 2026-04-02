@@ -8,6 +8,7 @@
 <div class="container">
 <h2>Doctor Dashboard</h2>
 
+{% if grouped %}
 {% for doc, plist in grouped.items() %}
 <div class="card">
 <h3>{{ doc }}</h3>
@@ -22,6 +23,9 @@
 <td><a href="/complete/{{ p.id }}"><button>Done</button></a></td>
 </tr>
 {% endfor %}
+{% else %}
+<p>No patients</p>
+{% endif %}
 
 </table>
 </div>
