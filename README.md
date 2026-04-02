@@ -20,3 +20,14 @@ pip install flask
 python app.py  
 
 Open: http://127.0.0.1:5000/
+
+##  Demo Screens
+
+- Patient Queue View
+- Doctor Dashboard
+- Emergency Prioritization
+
+##  Real-world Impact
+- Reduces waiting time
+- Improves emergency response
+- Organizes hospital workflow efficiently
