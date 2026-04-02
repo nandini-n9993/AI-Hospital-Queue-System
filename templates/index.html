@@ -1,17 +1,69 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Emergency Help</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            text-align: center;
+            padding-top: 100px;
+        }
+        .box {
+            background: white;
+            width: 350px;
+            margin: auto;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px gray;
+        }
+        input, select, button {
+            padding: 10px;
+            width: 90%;
+            margin: 10px 0;
+        }
+        button {
+            background-color: red;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: darkred;
+        }
+        label {
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
 
-<div class="container">
-<h1>🏥 AI Hospital Queue System</h1>
+    <div class="box">
+        <h2>🚑 Emergency Assistance</h2>
 
-<a href="/patient"><button>Patient</button></a>
-<a href="/doctor"><button>Doctor</button></a>
+        <form action="/book" method="POST">
+            <input type="text" name="name" placeholder="Enter your name" required>
 
-</div>
+            <input type="number" name="age" placeholder="Enter your age" required>
+
+            <input type="text" name="symptoms" placeholder="Describe symptoms" required>
+
+            <label>Severity:</label>
+            <select name="severity">
+                <option value="1">Low</option>
+                <option value="2">Medium</option>
+                <option value="3">High</option>
+            </select>
+
+            <label>Chronic Disease:</label>
+            <select name="chronic">
+                <option value="0">No</option>
+                <option value="1">Yes</option>
+            </select>
+
+            <button type="submit">Send Emergency Alert</button>
+        </form>
+    </div>
 
 </body>
 </html>
