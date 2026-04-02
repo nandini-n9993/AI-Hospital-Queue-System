@@ -1,33 +1,48 @@
 from flask import Flask, render_template, request, redirect, url_for
 from datetime import datetime
+import json
+import os
 
 app = Flask(__name__)
 
-patients = []
+# ---------- DATA STORAGE ----------
+def load_patients():
+    if not os.path.exists("patients.json"):
+        return []
+    with open("patients.json", "r") as f:
+        return json.load(f)
 
-# Specialist + priority logic
+def save_patients(data):
+    with open("patients.json", "w") as f:
+        json.dump(data, f)
+
+patients = load_patients()
+
+# ---------- SPECIALIST LOGIC ----------
 def assign_specialist(symptoms):
     s = symptoms.lower()
 
     if "heart" in s or "chest pain" in s:
         return "Cardiologist", "High"
-    elif "brain" in s or "headache" in s or "seizure" in s:
+    elif "brain" in s or "headache" in s:
         return "Neurologist", "Medium"
-    elif "bone" in s or "fracture" in s or "joint" in s:
+    elif "bone" in s or "fracture" in s:
         return "Orthopedic", "Medium"
     elif any(word in s for word in ["skin", "rash", "allergy", "itching", "acne"]):
         return "Dermatologist", "Low"
-    elif "fever" in s or "cough" in s or "cold" in s:
+    elif "fever" in s or "cough" in s:
         return "General Physician", "Low"
     else:
         return "General Physician", "Low"
 
-# Clean completed patients daily
+# ---------- CLEAN OLD DATA ----------
 def clean_old_data():
-    today = datetime.now().date()
     global patients
+    today = str(datetime.now().date())
     patients = [p for p in patients if p["date"] == today and not p["done"]]
+    save_patients(patients)
 
+# ---------- ROUTES ----------
 @app.route("/")
 def home():
     clean_old_data()
@@ -35,6 +50,7 @@ def home():
 
 @app.route("/patient", methods=["GET", "POST"])
 def patient():
+    global patients
     clean_old_data()
 
     if request.method == "POST":
@@ -55,8 +71,10 @@ def patient():
             "priority": priority,
             "doctor": specialist,
             "done": False,
-            "date": datetime.now().date()
+            "date": str(datetime.now().date())
         })
+
+        save_patients(patients)
 
         return render_template(
             "patient.html",
@@ -73,22 +91,20 @@ def doctor():
     clean_old_data()
 
     grouped = {}
-
     for p in patients:
-        try:
-            if not p.get("done", False):
-                doctor = p.get("doctor", "General Physician")
-                grouped.setdefault(doctor, []).append(p)
-        except:
-            pass  # prevents crash
+        if not p.get("done"):
+            grouped.setdefault(p["doctor"], []).append(p)
 
     return render_template("doctor.html", grouped=grouped)
 
 @app.route("/complete/<int:pid>")
 def complete(pid):
+    global patients
     for p in patients:
-        if p.get("id") == pid:
+        if p["id"] == pid:
             p["done"] = True
+
+    save_patients(patients)
     return redirect(url_for("doctor"))
 
 if __name__ == "__main__":
