@@ -3,35 +3,50 @@
 <head>
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
+
 <body>
 
 <div class="container">
+
 <h2>Doctor Dashboard</h2>
 
-{% if grouped %}
-{% for doc, plist in grouped.items() %}
-<div class="card">
-<h3>{{ doc }}</h3>
+{% if grouped and grouped|length > 0 %}
 
-<table>
-<tr><th>Name</th><th>Symptoms</th><th>Action</th></tr>
+    {% for doc, plist in grouped.items() %}
+    <div class="card">
 
-{% for p in plist %}
-<tr>
-<td>{{ p.name }}</td>
-<td>{{ p.symptoms }}</td>
-<td><a href="/complete/{{ p.id }}"><button>Done</button></a></td>
-</tr>
-{% endfor %}
+        <h3>{{ doc }}</h3>
+
+        <table>
+        <tr>
+            <th>Name</th>
+            <th>Symptoms</th>
+            <th>Action</th>
+        </tr>
+
+        {% for p in plist %}
+        <tr>
+            <td>{{ p.name }}</td>
+            <td>{{ p.symptoms }}</td>
+            <td>
+                <a href="/complete/{{ p.id }}">
+                    <button>Done</button>
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+
+        </table>
+
+    </div>
+    {% endfor %}
+
 {% else %}
-<p>No patients</p>
+<p>No patients available</p>
 {% endif %}
 
-</table>
-</div>
-{% endfor %}
-
 <a href="/">Home</a>
+
 </div>
 
 </body>
