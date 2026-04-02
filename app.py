@@ -5,21 +5,24 @@ app = Flask(__name__)
 
 patients = []
 
-# AI-like specialization suggestion
+# Specialist + priority logic
 def assign_specialist(symptoms):
     s = symptoms.lower()
+
     if "heart" in s or "chest pain" in s:
         return "Cardiologist", "High"
-    elif "brain" in s or "headache" in s:
+    elif "brain" in s or "headache" in s or "seizure" in s:
         return "Neurologist", "Medium"
-    elif "bone" in s or "fracture" in s:
+    elif "bone" in s or "fracture" in s or "joint" in s:
         return "Orthopedic", "Medium"
-    elif "fever" in s or "cough" in s:
+    elif any(word in s for word in ["skin", "rash", "allergy", "itching", "acne"]):
+        return "Dermatologist", "Low"
+    elif "fever" in s or "cough" in s or "cold" in s:
         return "General Physician", "Low"
     else:
         return "General Physician", "Low"
 
-# Remove old completed patients (daily reset logic)
+# Clean completed patients daily
 def clean_old_data():
     today = datetime.now().date()
     global patients
@@ -40,7 +43,7 @@ def patient():
         symptoms = request.form.get("symptoms")
 
         if not name or not age or not symptoms:
-            return "Missing form data", 400
+            return "Missing data", 400
 
         specialist, priority = assign_specialist(symptoms)
 
@@ -75,7 +78,7 @@ def doctor():
             grouped.setdefault(p["doctor"], []).append(p)
 
     return render_template("doctor.html", grouped=grouped)
-    
+
 @app.route("/complete/<int:pid>")
 def complete(pid):
     for p in patients:
