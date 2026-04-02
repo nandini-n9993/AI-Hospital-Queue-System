@@ -10,9 +10,9 @@
 
 <h2>Doctor Dashboard</h2>
 
-{% if grouped and grouped|length > 0 %}
+{% if grouped %}
 
-    {% for doc, plist in grouped.items() %}
+    {% for doc in grouped %}
     <div class="card">
 
         <h3>{{ doc }}</h3>
@@ -24,12 +24,12 @@
             <th>Action</th>
         </tr>
 
-        {% for p in plist %}
+        {% for p in grouped[doc] %}
         <tr>
-            <td>{{ p.name }}</td>
-            <td>{{ p.symptoms }}</td>
+            <td>{{ p.get('name', 'N/A') }}</td>
+            <td>{{ p.get('symptoms', 'N/A') }}</td>
             <td>
-                <a href="/complete/{{ p.id }}">
+                <a href="/complete/{{ p.get('id', 0) }}">
                     <button>Done</button>
                 </a>
             </td>
