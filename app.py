@@ -136,4 +136,4 @@ def mark_done(id):
     return redirect(url_for('doctor_view'))
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
