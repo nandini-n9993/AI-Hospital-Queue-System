@@ -1,22 +1,33 @@
 from flask import Flask, render_template, request, redirect, url_for
 from datetime import datetime
-import json
-import os
+import sqlite3
 
 app = Flask(__name__)
 
-# ---------- DATA STORAGE ----------
-def load_patients():
-    if not os.path.exists("patients.json"):
-        return []
-    with open("patients.json", "r") as f:
-        return json.load(f)
+# ---------- DATABASE ----------
+def get_db():
+    conn = sqlite3.connect("database.db")
+    conn.row_factory = sqlite3.Row
+    return conn
 
-def save_patients(data):
-    with open("patients.json", "w") as f:
-        json.dump(data, f)
+def init_db():
+    conn = get_db()
+    conn.execute("""
+    CREATE TABLE IF NOT EXISTS patients (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT,
+        age TEXT,
+        symptoms TEXT,
+        priority TEXT,
+        doctor TEXT,
+        done INTEGER,
+        date TEXT
+    )
+    """)
+    conn.commit()
+    conn.close()
 
-patients = load_patients()
+init_db()
 
 # ---------- SPECIALIST LOGIC ----------
 def assign_specialist(symptoms):
@@ -35,24 +46,14 @@ def assign_specialist(symptoms):
     else:
         return "General Physician", "Low"
 
-# ---------- CLEAN OLD DATA ----------
-def clean_old_data():
-    global patients
-    today = str(datetime.now().date())
-    patients = [p for p in patients if p["date"] == today and not p["done"]]
-    save_patients(patients)
-
-# ---------- ROUTES ----------
+# ---------- HOME ----------
 @app.route("/")
 def home():
-    clean_old_data()
     return render_template("index.html")
 
+# ---------- PATIENT ----------
 @app.route("/patient", methods=["GET", "POST"])
 def patient():
-    global patients
-    clean_old_data()
-
     if request.method == "POST":
         name = request.form.get("name")
         age = request.form.get("age")
@@ -63,49 +64,42 @@ def patient():
 
         specialist, priority = assign_specialist(symptoms)
 
-        patients.append({
-            "id": len(patients),
-            "name": name,
-            "age": age,
-            "symptoms": symptoms,
-            "priority": priority,
-            "doctor": specialist,
-            "done": False,
-            "date": str(datetime.now().date())
-        })
-
-        save_patients(patients)
-
-        return render_template(
-            "patient.html",
-            success=True,
-            specialist=specialist,
-            priority=priority,
-            patients=patients
+        conn = get_db()
+        conn.execute(
+            "INSERT INTO patients (name, age, symptoms, priority, doctor, done, date) VALUES (?, ?, ?, ?, ?, ?, ?)",
+            (name, age, symptoms, priority, specialist, 0, str(datetime.now().date()))
         )
+        conn.commit()
+        conn.close()
+
+    conn = get_db()
+    patients = conn.execute("SELECT * FROM patients WHERE done = 0").fetchall()
+    conn.close()
 
     return render_template("patient.html", patients=patients)
 
+# ---------- DOCTOR ----------
 @app.route("/doctor")
 def doctor():
-    clean_old_data()
+    conn = get_db()
+    rows = conn.execute("SELECT * FROM patients WHERE done = 0").fetchall()
+    conn.close()
 
     grouped = {}
-    for p in patients:
-        if not p.get("done"):
-            grouped.setdefault(p["doctor"], []).append(p)
+    for p in rows:
+        grouped.setdefault(p["doctor"], []).append(p)
 
     return render_template("doctor.html", grouped=grouped)
 
+# ---------- COMPLETE ----------
 @app.route("/complete/<int:pid>")
 def complete(pid):
-    global patients
-    for p in patients:
-        if p["id"] == pid:
-            p["done"] = True
-
-    save_patients(patients)
+    conn = get_db()
+    conn.execute("UPDATE patients SET done = 1 WHERE id = ?", (pid,))
+    conn.commit()
+    conn.close()
     return redirect(url_for("doctor"))
 
+# ---------- RUN ----------
 if __name__ == "__main__":
     app.run()
