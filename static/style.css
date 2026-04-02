@@ -1,6 +1,6 @@
 body {
-    font-family: 'Segoe UI';
-    background: linear-gradient(to right, #dfe9f3, #ffffff);
+    font-family: Arial;
+    background: #eef2f7;
     margin: 0;
 }
 
@@ -8,23 +8,28 @@ body {
     width: 85%;
     margin: auto;
     text-align: center;
-    padding: 40px;
+    padding: 30px;
 }
 
 h1 {
-    font-size: 3rem;
-    color: #0d47a1;
+    font-size: 2.8rem;
+}
+
+.card {
+    background: white;
+    padding: 20px;
+    margin: 20px auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
 
 button {
-    padding: 12px 25px;
-    font-size: 18px;
-    margin: 10px;
-    border-radius: 8px;
-    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
     background: #1976d2;
     color: white;
-    cursor: pointer;
+    border: none;
+    border-radius: 6px;
 }
 
 button:hover {
@@ -33,14 +38,12 @@ button:hover {
 
 input, textarea {
     width: 60%;
-    padding: 12px;
+    padding: 10px;
     margin: 10px;
-    font-size: 16px;
 }
 
 table {
     width: 100%;
-    margin-top: 20px;
     border-collapse: collapse;
 }
 
@@ -54,14 +57,3 @@ td {
     padding: 10px;
     border: 1px solid #ddd;
 }
-
-
-.card {
-    background: white;
-    padding: 20px;
-    margin: 20px auto;
-    width: 80%;
-    border-radius: 12px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-}
-
