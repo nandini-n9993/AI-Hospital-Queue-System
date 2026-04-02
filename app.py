@@ -31,7 +31,6 @@ def home():
     return render_template("index.html")
 
 @app.route("/patient", methods=["GET", "POST"])
-@app.route("/patient", methods=["GET", "POST"])
 def patient():
     clean_old_data()
 
