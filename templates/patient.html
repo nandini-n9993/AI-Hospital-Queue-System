@@ -18,13 +18,6 @@
 </form>
 </div>
 
-{% if success is defined and success %}
-<div class="card">
-<h3>Doctor: {{ specialist }}</h3>
-<h3>Priority: {{ priority }}</h3>
-</div>
-{% endif %}
-
 <div class="card">
 <h3>Pending Patients</h3>
 
@@ -39,7 +32,7 @@
 <tr>
 <td>{{ p.name }}</td>
 <td>{{ p.doctor }}</td>
-<td>{% if p.done %}✔ Done{% else %}⏳ Waiting{% endif %}</td>
+<td>⏳ Waiting</td>
 </tr>
 {% endfor %}
 
