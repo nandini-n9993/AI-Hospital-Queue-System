@@ -52,7 +52,7 @@ def patient():
             "date": datetime.now().date()
         })
 
-        return render_template("patient.html", success=True, specialist=specialist, priority=priority)
+        return render_template("patient.html", success=True, specialist=specialist, priority=priority, patients=patients)
 
     return render_template("patient.html", patients=patients)
 
