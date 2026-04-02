@@ -1,28 +1,38 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Patient View</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-<body style="font-family:sans-serif; text-align:center;">
+<body>
 
-    <h2>🧑 Patient Appointment</h2>
+<div class="container">
+<h2>Patient Form</h2>
 
-    <form method="POST">
-        <input type="text" name="name" placeholder="Enter Name" required><br><br>
-        <textarea name="symptoms" placeholder="Enter Symptoms" required></textarea><br><br>
+<form method="POST">
+<input name="name" placeholder="Name" required>
+<input name="age" placeholder="Age" required>
+<textarea name="symptoms" placeholder="Symptoms" required></textarea>
+<button>Submit</button>
+</form>
 
-        <button type="submit">Submit</button>
-    </form>
+{% if success %}
+<h3>Assigned: {{ specialist }} (Priority: {{ priority }})</h3>
+{% endif %}
 
-    {% if message %}
-        <p style="color:green;">{{ message }}</p>
-    {% endif %}
+<h3>Pending Patients</h3>
+<table>
+<tr><th>Name</th><th>Doctor</th><th>Status</th></tr>
+{% for p in patients %}
+<tr>
+<td>{{ p.name }}</td>
+<td>{{ p.doctor }}</td>
+<td>{% if p.done %}Done{% else %}Waiting{% endif %}</td>
+</tr>
+{% endfor %}
+</table>
 
-    <br>
-    <a href="/doctor">Go to Doctor View</a>
-    <br>
-    <a href="/">Home</a>
+<a href="/">Home</a>
+</div>
 
 </body>
 </html>
