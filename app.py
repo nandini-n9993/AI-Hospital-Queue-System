@@ -73,16 +73,21 @@ def doctor():
     clean_old_data()
 
     grouped = {}
+
     for p in patients:
-        if not p.get("done"):
-            grouped.setdefault(p["doctor"], []).append(p)
+        try:
+            if not p.get("done", False):
+                doctor = p.get("doctor", "General Physician")
+                grouped.setdefault(doctor, []).append(p)
+        except:
+            pass  # prevents crash
 
     return render_template("doctor.html", grouped=grouped)
 
 @app.route("/complete/<int:pid>")
 def complete(pid):
     for p in patients:
-        if p["id"] == pid:
+        if p.get("id") == pid:
             p["done"] = True
     return redirect(url_for("doctor"))
 
