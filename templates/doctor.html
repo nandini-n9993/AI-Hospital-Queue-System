@@ -1,37 +1,34 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Doctor Dashboard</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-<body style="font-family:sans-serif; text-align:center;">
+<body>
 
-    <h2>👨‍⚕️ Doctor Dashboard</h2>
+<div class="container">
+<h2>Doctor Dashboard</h2>
 
-    {% if patients %}
-        <table border="1" style="margin:auto;">
-            <tr>
-                <th>Name</th>
-                <th>Symptoms</th>
-                <th>Priority</th>
-            </tr>
+{% for doc, plist in grouped.items() %}
+<div class="card">
+<h3>{{ doc }}</h3>
 
-            {% for p in patients %}
-            <tr>
-                <td>{{ p.name }}</td>
-                <td>{{ p.symptoms }}</td>
-                <td>{{ p.priority }}</td>
-            </tr>
-            {% endfor %}
-        </table>
-    {% else %}
-        <p>No patients yet</p>
-    {% endif %}
+<table>
+<tr><th>Name</th><th>Symptoms</th><th>Action</th></tr>
 
-    <br>
-    <a href="/patient">Go to Patient View</a>
-    <br>
-    <a href="/">Home</a>
+{% for p in plist %}
+<tr>
+<td>{{ p.name }}</td>
+<td>{{ p.symptoms }}</td>
+<td><a href="/complete/{{ p.id }}"><button>Done</button></a></td>
+</tr>
+{% endfor %}
+
+</table>
+</div>
+{% endfor %}
+
+<a href="/">Home</a>
+</div>
 
 </body>
 </html>
