@@ -3,7 +3,6 @@
 <head>
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-
 <body>
 
 <div class="container">
@@ -40,13 +39,7 @@
 <tr>
 <td>{{ p.name }}</td>
 <td>{{ p.doctor }}</td>
-<td>
-{% if p.done %}
-✔ Done
-{% else %}
-⏳ Waiting
-{% endif %}
-</td>
+<td>{% if p.done %}✔ Done{% else %}⏳ Waiting{% endif %}</td>
 </tr>
 {% endfor %}
 
