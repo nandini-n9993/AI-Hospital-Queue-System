@@ -3,7 +3,6 @@
 <head>
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-
 <body>
 
 <div class="container">
@@ -11,10 +10,8 @@
 <h2>Doctor Dashboard</h2>
 
 {% if grouped %}
-
     {% for doc in grouped %}
     <div class="card">
-
         <h3>{{ doc }}</h3>
 
         <table>
@@ -26,21 +23,19 @@
 
         {% for p in grouped[doc] %}
         <tr>
-            <td>{{ p.get('name', 'N/A') }}</td>
-            <td>{{ p.get('symptoms', 'N/A') }}</td>
+            <td>{{ p.name }}</td>
+            <td>{{ p.symptoms }}</td>
             <td>
-                <a href="/complete/{{ p.get('id', 0) }}">
+                <a href="/complete/{{ p.id }}">
                     <button>Done</button>
                 </a>
             </td>
         </tr>
         {% endfor %}
-
         </table>
 
     </div>
     {% endfor %}
-
 {% else %}
 <p>No patients available</p>
 {% endif %}
