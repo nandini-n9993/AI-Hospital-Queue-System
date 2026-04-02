@@ -1,21 +1,21 @@
 # 🚑 AI-Hospital-Queue-System
 AI-based multi speciality hospital queue management system using flask
 
-## 💡 Overview
+##  Overview
 A smart hospital queue system that prioritizes patients using AI-based scoring.
 
-## 🚀 Features
+##  Features
 - Emergency prioritization 🚨
 - Doctor specialization queues 🧑‍⚕️
 - Live patient tracking 👥
 - Manual completion system ✔
 
-## 🧠 Tech Stack
+##  Tech Stack
 - Flask
 - SQLite
 - HTML/CSS
 
-## ▶️ Run Project
+##  Run Project
 pip install flask  
 python app.py  
 
