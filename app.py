@@ -31,13 +31,17 @@ def home():
     return render_template("index.html")
 
 @app.route("/patient", methods=["GET", "POST"])
+@app.route("/patient", methods=["GET", "POST"])
 def patient():
     clean_old_data()
 
     if request.method == "POST":
-        name = request.form("name")
-        age = request.form("age")
-        symptoms = request.form("symptoms")
+        name = request.form.get("name")
+        age = request.form.get("age")
+        symptoms = request.form.get("symptoms")
+
+        if not name or not age or not symptoms:
+            return "Missing form data", 400
 
         specialist, priority = assign_specialist(symptoms)
 
@@ -52,7 +56,13 @@ def patient():
             "date": datetime.now().date()
         })
 
-        return render_template("patient.html", success=True, specialist=specialist, priority=priority, patients=patients)
+        return render_template(
+            "patient.html",
+            success=True,
+            specialist=specialist,
+            priority=priority,
+            patients=patients
+        )
 
     return render_template("patient.html", patients=patients)
 
