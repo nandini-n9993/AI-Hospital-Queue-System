@@ -74,12 +74,12 @@ _Add screenshots here (optional but recommended):_
    python app.py
 5. Open in browser:
    http://127.0.0.1:5000/
-👉 Patients can:
+
+Patients can:
 - Enter details
 - Submit symptoms
 - Get added to queue
-
- Patient Queue View
+Patient Queue View
  http://127.0.0.1:5000/patient_view
 
  Shows:
@@ -87,16 +87,12 @@ _Add screenshots here (optional but recommended):_
 - Priority-based ordering
 - Status (Waiting / Done)
 
-Doctor Dashboard
-
-http://127.0.0.1:5000/doctor_view
-
-
 Doctors can:
 - View patients by specialization
 - See emergency cases 🚨
 - Mark patients as **Done** after consultation
-
+Doctor Dashboard
+ http://127.0.0.1:5000/doctor_view
 
 ---
 
@@ -129,10 +125,10 @@ Doctors can:
 
 ##  Real-World Impact
 
-- Reduces waiting time ⏳  
-- Improves emergency handling 🚨  
-- Enhances hospital efficiency 📈  
-- Better patient experience 😊  
+- Reduces waiting time 
+- Improves emergency handling   
+- Enhances hospital efficiency   
+- Better patient experience  
 
 ---
 
