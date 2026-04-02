@@ -8,35 +8,26 @@
 
 <div class="container">
 
-<h1>🧑 Patient Registration</h1>
+<h2>Patient Form</h2>
 
 <div class="card">
-
 <form method="POST">
-<input type="text" name="name" placeholder="Enter Name" required>
-<input type="number" name="age" placeholder="Enter Age" required>
-<textarea name="symptoms" placeholder="Describe Symptoms" required></textarea>
-
+<input name="name" placeholder="Name" required>
+<input name="age" placeholder="Age" required>
+<textarea name="symptoms" placeholder="Symptoms" required></textarea>
 <button type="submit">Submit</button>
 </form>
-
 </div>
 
 {% if success is defined and success %}
 <div class="card">
-
-{% if priority == "High" %}
-<h2 style="color:red;">🚨 EMERGENCY CASE</h2>
-{% endif %}
-
-<h3>Assigned Doctor: {{ specialist }}</h3>
-<h3>Priority Level: {{ priority }}</h3>
-
+<h3>Doctor: {{ specialist }}</h3>
+<h3>Priority: {{ priority }}</h3>
 </div>
 {% endif %}
 
 <div class="card">
-<h2>📋 Pending Patients</h2>
+<h3>Pending Patients</h3>
 
 <table>
 <tr>
@@ -62,8 +53,7 @@
 </table>
 </div>
 
-<br>
-<a href="/">🏠 Home</a>
+<a href="/">Home</a>
 
 </div>
 
