@@ -35,9 +35,9 @@ def patient():
     clean_old_data()
 
     if request.method == "POST":
-        name = request.form["name"]
-        age = request.form["age"]
-        symptoms = request.form["symptoms"]
+        name = request.form("name")
+        age = request.form("age")
+        symptoms = request.form("symptoms")
 
         specialist, priority = assign_specialist(symptoms)
 
